@@ -25,9 +25,9 @@ while [ $loop -eq 1 ]; do
 		apiUrl="https://api.github.com/repos/VI-Software/vis-launcher/releases/latest"
 		releaseJson=$(curl -sL "$apiUrl")
 		#echo "$releaseJson"
-		downloadUrl=$(echo "$releaseJson" | jq -r --arg latestAssetName "$latestAssetName" '.assets[7].browser_download_url ')
+		downloadUrl=$(echo "$releaseJson" | jq -r '.assets[] | select(.name | endswith(".AppImage")) | .browser_download_url')
 		echo "$downloadUrl"
-		wget $downloadUrl
+		wget -O updater.AppImage $downloadUrl
 
 
 	elif [ $option -eq 2 ]; then
